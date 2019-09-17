@@ -189,20 +189,16 @@ static std::unique_ptr<ExprAST> ParseIdentifierExpr() {
     // 呼び出しの終わりと引数同士の区切りはCurTokが')'であるか','であるかで判別できることに注意。
 
     std::vector<std::unique_ptr<ExprAST>> args;
-/*
-    while (CurTok != ')') {
-        auto result = ParseExpression();
-        //args.puch_back(ParseExpression());    
-        if (CurTok == ',') {
+    if (CurTok != ')') {
+        while (1) {
+            auto result = ParseExpression();
             args.push_back(std::move(result));
-            getNextToken();
-        }
-    }
-*/
-    while (CurTok != ')') {
-        auto result = ParseExpression();
-        args.push_back(std::move(result));
-        if (CurTok == ',') {
+            if (CurTok == ')') {
+                break;
+            }
+            if (CurTok != ',') {
+                return LogError("expected ')' or ',' in argument list");
+            }
             getNextToken();
         }
     }
@@ -299,8 +295,13 @@ static std::unique_ptr<PrototypeAST> ParsePrototype() {
 
     std::vector<std::string> args;
 
-    while (CurTok != ')') {
-        args.push_back(lexer.getIdentifier());    
+    if (CurTok != ')') {
+        while (1) {
+            args.push_back(lexer.getIdentifier());    
+            getNextToken();
+            if (CurTok == ')')
+                break;
+        }
     }
         
     // 6. トークンを次に進める。
