@@ -301,7 +301,6 @@ static std::unique_ptr<PrototypeAST> ParsePrototype() {
     getNextToken();
 
     // 7. PrototypeASTを構成し、返す。
-    //return std::unique_ptr<PrototypeAST>(identifier, std::move(args));
     return llvm::make_unique<PrototypeAST>(identifier,std::move(args));
 }
 
