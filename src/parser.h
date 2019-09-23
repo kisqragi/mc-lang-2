@@ -286,13 +286,6 @@ static std::unique_ptr<PrototypeAST> ParsePrototype() {
 
     getNextToken();
 
-    // 5. 関数fooの呼び出しfoo(3,4,5)の()内をパースする。
-    // 引数は数値、二項演算子、(親関数で定義された)引数である可能性があるので、
-    // ParseExpressionを用いる。
-    // 呼び出しが終わるまで(CurTok == ')'になるまで)引数をパースしていき、都度argsにpush_backする。
-    // 呼び出しの終わりと引数同士の区切りはCurTokが')'であるか','であるかで判別できることに注意。
-
-
     std::vector<std::string> args;
 
     if (CurTok != ')') {
