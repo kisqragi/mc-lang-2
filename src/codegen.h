@@ -58,9 +58,8 @@ Value *CallExprAST::codegen() {
 
     std::vector<Value *> argsV;
     // 3. argsをそれぞれcodegenしllvm::Valueにし、argsVにpush_backする。
-    for (unsigned i = 0, e = args.size(); i != e; i++) {
+    for (unsigned i = 0; i < args.size(); i++) {
         argsV.push_back(args[i]->codegen());
-        if (argsV.back() == 0) return 0; 
     }
 
     // 4. IRBuilderのCreateCallを呼び出し、Valueをreturnする。
