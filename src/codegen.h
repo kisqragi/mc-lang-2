@@ -33,8 +33,13 @@ Value *LogErrorV(const char *str) {
 Value *VariableExprAST::codegen() {
     // NamedValuesの中にVariableExprAST::NameとマッチするValueがあるかチェックし、
     // あったらそのValueを返す。
-    Value *V = NamedValues[variableName];
-    return V ? V : LogErrorV("unknown error name");
+    //Value *V = NamedValues[variableName];
+    //return V ? V : LogErrorV("unknown error name");
+    if (NamedValues.count(variableName)) {
+        return NamedValues[variableName];
+    }
+    return nullptr;
+
 }
 
 // TODO 2.5: 関数呼び出しのcodegenを実装してみよう
@@ -42,6 +47,9 @@ Value *CallExprAST::codegen() {
     // 1. myModule->getFunctionを用いてcalleeがdefineされているかを
     // チェックし、されていればそのポインタを得る。
     Function *calleeF = myModule->getFunction(callee);
+
+    if (!calleeF)
+        return LogErrorV("Unknown function referenced");
 
     // 2. llvm::Function::arg_sizeと実際に渡されたargsのサイズを比べ、
     // サイズが間違っていたらエラーを出力。
