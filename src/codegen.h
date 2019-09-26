@@ -38,7 +38,7 @@ Value *VariableExprAST::codegen() {
     if (NamedValues.count(variableName)) {
         return NamedValues[variableName];
     }
-    return nullptr;
+    return LogErrorV("unknown error name");
 
 }
 
