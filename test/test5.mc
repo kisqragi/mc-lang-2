@@ -9,6 +9,3 @@ def mul(x y)
 
 def udiv(x y)
     x / y;
-
-def test()
-    5 / 3;
